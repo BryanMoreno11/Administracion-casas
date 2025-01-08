@@ -1,0 +1,215 @@
+<!-- Tabla -->
+
+@if(isOpen==false){
+  <section>
+    <div class="container">
+        <h1>Gestión de Casas</h1>
+        <div class="botones">
+            <button class="add-btn" (click)="abrirModal()"    >Agregar Casa</button>
+        </div>
+        <table class="excel-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Ciudad</th>
+                    <th>Provincia</th>
+                    <th>Unidades</th>
+                    <th>Wifi</th>
+                    <th>Lavandería</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(casa of casas; track $index){
+                    <tr>
+                        <td>{{casa.id}}</td>
+                        <td>{{casa.nombre}}</td>
+                        <td>{{casa.ciudad}}</td>
+                        <td>{{casa.provincia}}</td>
+                        <td>{{casa.unidades}}</td>
+                        <td>{{casa.wifi ? 'Sí' : 'No'}}</td>
+                        <td>{{casa.lavanderia ? 'Sí' : 'No'}}</td>
+                        <td><img class="casa-foto" src="{{casa.foto[0]}}" alt=""></td>
+                        <td>
+                            <button class="editar" (click)="abrirModal(casa)" >Editar</button>
+                            <button class="eliminar" (click)="eliminarCasa(casa)" >Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+}
+
+
+
+<!-- Formulario -->
+@if(isOpen) {
+    <div class="form-container">
+      <form >
+
+        <div>
+          <label for="id">ID</label>
+          <input
+          [disabled]="editing"
+            type="number"
+            id="id"
+            [(ngModel)]="oCasa.id"
+            name="id"
+            required
+          />
+        </div>
+  
+        <div>
+          <label for="nombre">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            [(ngModel)]="oCasa.nombre"
+            name="nombre"
+            required
+          />
+        </div>
+  
+        <div>
+          <label for="ciudad">Ciudad</label>
+          <input
+            type="text"
+            id="ciudad"
+            [(ngModel)]="oCasa.ciudad"
+            name="ciudad"
+            required
+          />
+        </div>
+  
+        <div>
+          <label for="provincia">Provincia</label>
+          <input
+            type="text"
+            id="provincia"
+            [(ngModel)]="oCasa.provincia"
+            name="provincia"
+            required
+          />
+        </div>
+  
+       
+  
+        <div>
+          <label for="unidades">Unidades</label>
+          <input
+            type="number"
+            id="unidades"
+            [(ngModel)]="oCasa.unidades"
+            name="unidades"
+            required
+            min="1"
+          />
+        </div>
+  
+        <div>
+          <label for="wifi">Wifi</label>
+          <select [(ngModel)]="oCasa.wifi" name="wifi" id="wifi" required>
+            <option [value]="true">Sí</option>
+            <option [value]="false">No</option>
+          </select>
+        </div>
+  
+        <div>
+          <label for="lavanderia">Lavandería</label>
+          <select [(ngModel)]="oCasa.lavanderia" name="lavanderia" id="lavanderia" required>
+            <option [value]="true">Sí</option>
+            <option [value]="false">No</option>
+          </select>
+        </div>
+
+       
+        <div class="imagenes">
+          <label for="foto">Imágenes (URL)</label>
+          <div class="imagen-container">
+            <input
+              type="text"
+              id="foto"
+              [(ngModel)]="tempUrl" name="tempUrl"
+              placeholder="Ingrese la URL de la imagen"
+              [disabled]="imagenes.length >= limiteImagenes"
+            />
+            <button
+              class="btn-url"
+              (click)="agregarImagen()"
+              [disabled]="imagenes.length >= limiteImagenes || !tempUrl"
+            >
+              Agregar
+            </button>
+          </div>
+        
+          <div class="carousel" *ngIf="imagenes.length > 0">
+            <button
+              class="btn-url"
+              (click)="anteriorImagen()"
+              [disabled]="currentImageIndex === 0"
+            >
+              ←
+            </button>
+        
+            <input
+              type="text"
+              [(ngModel)]="imagenes[currentImageIndex]" name="imagenes"
+              class="url-input"
+            />
+        
+            <button
+            class="btn-url"
+              (click)="siguienteImagen()"
+              [disabled]="currentImageIndex >=imagenes.length - 1"
+            >
+              →
+            </button>
+
+
+            <button
+            class="btn-url"
+             (click)="eliminarImagen()"
+             *ngIf="imagenes.length > 0"
+           >
+             Eliminar
+           </button>
+
+          </div>
+
+         
+          @if(imagenes.length>0){
+            <div class="contador">
+            
+              {{ currentImageIndex + 1 }}/{{ imagenes.length }}
+            </div>
+          }
+          
+          <img class="img-prev" src="{{imagenes[currentImageIndex]}}" alt="">
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+        <button type="submit" (click)="guardarCasa()"  >Guardar</button>
+        <button type="button" (click)="cerrarModal()" >Cancelar</button>
+      </form>
+    </div>
+  }
+  

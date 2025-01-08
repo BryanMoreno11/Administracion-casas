@@ -1,0 +1,6 @@
+<section class="listing">
+    <img class="listing-photo" [src]="ocasa.foto" alt=" foto de exterior {{ocasa.nombre}}">
+    <h2 class="listing-heading">{{ ocasa.nombre }}</h2>
+    <p class="listing-location">{{ocasa.ciudad}}, {{ocasa.provincia }}</p>
+    <a [routerLink]="['/detalles', ocasa.id]">Leer mas</a>
+  </section>

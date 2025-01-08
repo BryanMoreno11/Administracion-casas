@@ -1,0 +1,15 @@
+<section>
+    <form (ngSubmit)="filtradoCiudad()">
+      <input type="text" [(ngModel)]="CiudadFiltrada" name="CiudadFiltrada" placeholder="Filter by city"  >
+      <button class="primary" type="submit">Search</button>
+    </form>
+</section>
+
+<section class="results">
+  <div *ngIf="noResults" class="alert alert-warning bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">No se encontraron coincidencias para "{{ CiudadFiltrada }}"</span>
+  </div>
+  <app-localizacion-casa *ngFor="let oc of ListaFiltrada" [ocasa]="oc"></app-localizacion-casa>
+</section>
+
+  
