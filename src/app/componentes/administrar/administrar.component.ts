@@ -114,7 +114,8 @@ export class AdministrarComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this._casaService.deleteCasa(casa.id)
+        this._casaService.deleteCasa(casa.id).then(() => {
+          
           Swal.fire(
             'Eliminado',
             'La casa ha sido eliminada.',
@@ -122,6 +123,9 @@ export class AdministrarComponent {
           );
           this.cargarCasas();
       }
+      );
+    }
+      
     });
   }
   
