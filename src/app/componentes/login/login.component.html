@@ -1,0 +1,45 @@
+<div class="auth-container">
+    <!-- Imagen a la izquierda -->
+    <div class="auth-image">
+      <img src="https://www.construyehogar.com/wp-content/uploads/2016/01/Casa-moderna-un-piso.jpg" alt="Auth Image" />
+    </div>
+  
+    <!-- Formulario a la derecha -->
+    <div class="auth-form">
+      <h2>{{ isLogin ? 'Iniciar Sesión' : 'Registro' }}</h2>
+
+      @if(isLogin==false){
+        <form  (ngSubmit)="register()">
+            <input type="text" placeholder="Nombres" [(ngModel)]="user.nombres" name="nombres" required />
+            <input type="text" placeholder="Apellidos" [(ngModel)]="user.apellidos" name="apellidos" required />
+            <input type="email" placeholder="Correo" [(ngModel)]="user.email" name="email" required />
+            <input type="text" placeholder="Teléfono" [(ngModel)]="user.telefono" name="telefono" required />
+            <input type="text" placeholder="Imagen" [(ngModel)]="user.imagen" name="imagen" required />
+
+            <input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="password" required />
+            <button type="submit">Registrarse</button>
+
+          </form>
+      } 
+
+      @else{
+        <form (ngSubmit)="login()">
+            <input type="email" placeholder="Correo" [(ngModel)]="user.email" name="email" required />
+            <input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="password" required />
+            <button type="submit">Iniciar Sesión</button>
+          </form>
+      
+         
+
+      }
+      <p>
+        {{ isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+        <a (click)="toggleForm()">{{ isLogin ? 'Regístrate' : 'Inicia sesión' }}</a>
+      </p>
+  
+  
+  
+      
+    </div>
+  </div>
+  

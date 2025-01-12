@@ -41,7 +41,7 @@ export class AdministrarComponent {
   }
 
   ngOnInit(): void {
-    this.casas = this._casaService.getLista();
+   this.cargarCasas();
 
   }
 
@@ -73,12 +73,17 @@ export class AdministrarComponent {
     let casa={...this.oCasa};
     casa.foto=[...this.imagenes];
     if(this.editing){
-      this._casaService.updateCasa(casa);
+      this._casaService.updateCasa(casa).then(()=>{
+        this.cerrarModal();
+     this.cargarCasas();
+      });
       }else{
-        this._casaService.insertCasa(casa);
+        this._casaService.insertCasa(casa).then(()=>{
+          this.cerrarModal();
+          this.cargarCasas();
+        });
       }
-      this.cerrarModal();
-      this.casas = this._casaService.getLista();
+     
   }
 
   abrirModal(casa?:casa){
@@ -115,7 +120,7 @@ export class AdministrarComponent {
             'La casa ha sido eliminada.',
             'success'
           );
-          this.casas = this._casaService.getLista();
+          this.cargarCasas();
       }
     });
   }
@@ -150,6 +155,13 @@ export class AdministrarComponent {
     }
   }
   
+  async cargarCasas() {
+    try {
+      this.casas = await this._casaService.getLista();
+    } catch (error) {
+      console.error('Error al cargar las casas:', error);
+    }
+  }
 
 
 

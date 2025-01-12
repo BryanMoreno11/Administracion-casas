@@ -1,0 +1,85 @@
+@if(!isUserFormOpen){
+
+}
+
+
+<section >
+    <div class="container">
+      <h1>Gestión de Usuarios</h1>
+      <div class="botones">
+        <button class="add-btn" (click)="abrirFormulario()">Agregar Usuario</button>
+      </div>
+      <table class="excel-table">
+        <thead>
+          <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        @for (usuario of usuarios; track usuario.uid) {
+            <tr >
+                <td>{{ usuario.nombres }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>
+                  <button class="editar" (click)="editarUsuario(usuario)">Editar</button>
+                  <button class="eliminar" (click)="eliminarUsuario(usuario)">Eliminar</button>
+                </td>
+              </tr>
+
+        }
+
+         
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
+  @if(isUserFormOpen){
+    <div class="form-container" >
+        <form (ngSubmit)="guardarUsuario()">
+          <div>
+            <label for="nombres">Nombres</label>
+            <input type="text" id="nombres" [(ngModel)]="usuarioActual.nombres" name="nombres" required />
+          </div>
+      
+          <div>
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" [(ngModel)]="usuarioActual.apellidos" name="apellidos" required />
+          </div>
+      
+          <div>
+            <label for="telefono">Teléfono</label>
+            <input type="text" id="telefono" [(ngModel)]="usuarioActual.telefono" name="telefono" required />
+          </div>
+      
+          <div>
+            <label for="email">Email</label>
+            <input [disabled]="editing" type="email" id="email" [(ngModel)]="usuarioActual.email" name="email" required />
+          </div>
+      
+          <div>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" [(ngModel)]="usuarioActual.password" name="password" [required]="!editing" />
+          </div>
+      
+          <div>
+            <label for="imagen">Imagen (URL)</label>
+            <input type="text" id="imagen" [(ngModel)]="usuarioActual.imagen" name="imagen" />
+          </div>
+      
+          <button type="submit">{{ editing ? 'Actualizar' : 'Guardar' }}</button>
+          <button type="button" (click)="cerrarFormulario()">Cancelar</button>
+        </form>
+      </div>
+      
+        
+  }
+
+  

@@ -19,14 +19,14 @@ export class InicioComponent {
     noResults: boolean = false;
     oservice:CasaService=inject(CasaService);
     
-    constructor(private cservice:CasaService)
+    constructor(private cservice:CasaService, private _casaService:CasaService)
     {
-      this.Lista=this.oservice.getLista();
-            
+      this.cargarCasas();            
     }
     ngOnInit(): void {
-      this.Lista = this.cservice.getLista();
-      this.ListaFiltrada = this.Lista;
+      this.cargarCasas().then(() => {
+        this.ListaFiltrada = this.Lista;
+      });
     }
     filtradoCiudad(): void {
       if (this.CiudadFiltrada.trim() === '') {
@@ -37,6 +37,15 @@ export class InicioComponent {
           casa.ciudad.toLowerCase().includes(this.CiudadFiltrada.toLowerCase())
         );
         this.noResults = this.ListaFiltrada.length === 0;
+      }
+    }
+
+    async cargarCasas() {
+      try {
+        this.Lista = await this._casaService.getLista();
+        console.log("La lista es ", this.Lista);
+      } catch (error) {
+        console.error('Error al cargar las casas:', error);
       }
     }
 }

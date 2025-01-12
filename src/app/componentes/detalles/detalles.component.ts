@@ -3,6 +3,7 @@ import { CasaService } from '../../servicios/casa.service';
 import { CommonModule } from '@angular/common';
 import { casa } from '../../entidades/casa';
 import { ActivatedRoute } from '@angular/router';
+import {  getDoc} from 'firebase/firestore';
 
 @Component({
   selector: 'app-detalles',
@@ -19,12 +20,10 @@ export class DetallesComponent
   currentSlide = 0;
   constructor(private cservice: CasaService)
   {
-    const codigo=parseInt(this.route.snapshot.params['id'],10);
-    this.clocalizacion= this.oservice.getCasaId(codigo);
   }
   ngOnInit(): void {
     const id = + this.route.snapshot.paramMap.get('id')!;
-    this.clocalizacion = this.cservice.getCasaId(id);
+    this.obtenerCasa(id);
   }
   prevSlide(): void {
     if (this.clocalizacion && this.clocalizacion.foto.length) {
@@ -35,5 +34,11 @@ export class DetallesComponent
     if (this.clocalizacion && this.clocalizacion.foto.length) {
       this.currentSlide = (this.currentSlide + 1) % this.clocalizacion.foto.length;
     }
+  }
+
+  async obtenerCasa(id:number){
+  this.clocalizacion=await this.cservice.obtenerCasa(id);
+
+    
   }
 }
