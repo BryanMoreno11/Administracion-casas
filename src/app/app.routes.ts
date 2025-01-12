@@ -27,6 +27,6 @@ export const routes: Routes = [
       
     ] },
 
-    { path: '', redirectTo: '/inicio', pathMatch: 'full' },
+    { path: '**', redirectTo: '/inicio', pathMatch: 'full' },
 ];
 export default routes;
